@@ -1,0 +1,59 @@
+version: "3.3"
+
+services:
+    ldap:
+        cpu_percent: 10
+        mem_limit: "30000000"
+        image: "osixia/openldap"
+        environment:
+            LDAP_ADMIN_PASSWORD: "changeme"
+            LDAP_ORGANISATION: "tasteless"
+            LDAP_DOMAIN: "tasteless.eu"
+        volumes:
+            - /var/lib/ldap
+            - /etc/ldap/slapd.d
+            - "./privs.ldif:/container/service/slapd/assets/config/bootstrap/ldif/00-acls.ldif:ro"
+            - "./bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif:ro"
+            # because the schema-to-ldif.sh script with osixia/openldap has problems with this
+            # make sure that all schema files are lowercase.
+            # hours_spent_here: 2
+            - "./schema/mailboxRelatedObject.schema:/container/service/slapd/assets/config/bootstrap/schema/mailboxrelatedobject.schema:ro"
+            - "./flag.txt:/flag.txt:ro"
+        command:
+            - "--copy-service"
+        restart: unless-stopped
+    redis:
+        cpu_percent: 10
+        mem_limit: "30000000"
+        image: redis:alpine
+        restart: unless-stopped
+    web:
+        restart: unless-stopped
+        cpu_percent: 10
+        mem_limit: "150000000"
+        image: lightweight:latest
+        ports:
+            - 5000:5000
+        entrypoint: ["flask", "run", "--host", "0.0.0.0", "--port", "5000"]
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - "./docker.cfg:/chall/chall.cfg:ro"
+        environment:
+            APP_SETTINGS: "/chall/chall.cfg"
+            SECRET_KEY: "changeme"
+            FLASK_ENVIRONMENT: "development"
+    celery:
+        restart: unless-stopped
+        cpu_percent: 10
+        mem_limit: "150000000"
+        image: lightweight:latest
+        entrypoint: ["celery", "-A", "chall.celery", "worker", "--concurrency=1", "--uid", "celery"]
+        volumes:
+            - "./flag.txt:/chall/flag.txt:ro"
+            - "./docker.cfg:/chall/chall.cfg:ro"
+        environment:
+            APP_SETTINGS: "/chall/chall.cfg"
+            SECRET_KEY: "changeme"
+            FLASK_ENVIRONMENT: "development"

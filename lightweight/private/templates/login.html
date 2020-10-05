@@ -1,0 +1,21 @@
+{% extends "base.html" %}}
+
+{% block body %}
+<form method="POST">
+    <div>
+        {{ form.username.label }} {{ form.username() | safe }}
+    </div>
+    <div>
+        {{ form.password.label }} {{ form.password() | safe }}
+    </div>
+    {% for error in form.errors.username %}
+    <span style="color: red;">[{{error}}]</span>
+    {% endfor %}
+
+    <a href="{{ url_for('register') }}">register</a>
+    <a href="{{ url_for('request_reset') }}">reset</a>
+    <br />
+    {{ form.submit() }}
+    {{ form.hidden_tag() }}
+</form>
+{% endblock %}}

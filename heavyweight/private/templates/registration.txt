@@ -1,0 +1,3 @@
+Hello {{username}}!
+
+Your account is now ready. Go head over to {{ config["PUBLIC_URL"] }} and log in!

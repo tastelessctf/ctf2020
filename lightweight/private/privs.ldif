@@ -1,0 +1,7 @@
+dn: cn=config
+changeType: modify
+
+dn: olcDatabase={0}config,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth manage by dn="cn=admin,{{ LDAP_BASE_DN }}" write by * break

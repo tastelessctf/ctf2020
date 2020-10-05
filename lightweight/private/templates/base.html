@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block body %}
+        {% endblock %}
+
+        <footer>
+            <ul>
+                <li><a href="{{ url_for('privacy') }}">privacy</a></li>
+                {% if not current_user.is_anonymous %}
+                <li><a href="{{ url_for('logout') }}">logout</a></li>
+                {% endif %}
+            </ul>
+        </footer>
+    </body>
+</html>

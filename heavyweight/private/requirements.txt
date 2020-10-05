@@ -1,0 +1,8 @@
+flask
+flask-wtf
+flask-login
+flask-ldap3-login
+flask-caching
+flask-mail
+celery
+redis

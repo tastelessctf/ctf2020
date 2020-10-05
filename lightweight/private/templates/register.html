@@ -1,0 +1,27 @@
+{% extends "base.html" %}}
+
+{% block body %}
+<form method="POST">
+    <div>
+        {{ form.username.label }} {{ form.username() | safe }}
+        {% for error in form.errors.username %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.email.label }} {{ form.email() | safe }}
+        {% for error in form.errors.email %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.password.label }} {{ form.password() | safe }}
+        {% for error in form.errors.password %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}
+    </div>
+
+    {{ form.submit() }}
+    {{ form.hidden_tag() }}
+</form>
+{% endblock %}}

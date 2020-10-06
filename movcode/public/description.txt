@@ -1,0 +1,11 @@
+Categories: pwn, shellcode
+
+Brrr bing bing bing bing da da da.
+
+https://www.youtube.com/watch?v=jLPYnw17GTY
+
+nc okboomer.tasteless.eu 10601
+
+Update: There was a slight mismatch in I/O logic between handed out chall.py and setup on our server. We updated the challenge file, this does not affect the solution!
+
+Update2: We were asked about the environment this challenge is running on. It does not affect the solvability, but here is this information nonetheless: Linux 5.4.0-1025-aws / Ubuntu 20.04.1 LTS

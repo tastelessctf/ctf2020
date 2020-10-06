@@ -1,0 +1,25 @@
+7/11:
+categories: stego
+
+Can you find the flag?
+
+https://i.imgur.com/2ugJxK3.png
+
+Update: The meme in the challenge description is NOT part of the challenge.
+
+challenge.7z is the only file you need to obtain the flag.
+
+7/12:
+categories: stego, programming
+
+Same file as for 7/11.
+
+https://i.imgur.com/z0oere1.png
+
+Update: The meme in the challenge description is NOT part of the challenge.
+
+challenge.7z (distributed via 7/11) is the only file you need to obtain the flag.
+
+Hint: "If you have trouble solving 7/12, it may makes sense to understand the solution for 7/11!"
+
+

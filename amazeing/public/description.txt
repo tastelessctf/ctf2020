@@ -1,0 +1,15 @@
+Categories: rev, stego
+
+You know what we love even more than notepads? You guessed right, mazes!
+
+https://i.imgur.com/f6Tsr3c.png
+
+To make it even more fun, we hid the flag inside this maze.
+
+Hint1: "If you get lost in a maze, sometimes it helps to trace your own steps."
+
+Hint2: "We hid the flag inside the binary, not in a graphical representation."
+
+Hint3: "It's not only about the goal, but also about the decisions you made long the way!"
+
+Hint4: "It's a rev challenge - have you looked at the disassembly?"

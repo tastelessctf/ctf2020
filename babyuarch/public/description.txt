@@ -1,0 +1,9 @@
+Category: pwn
+
+Intel agrees: The only secure code is never executed code.
+
+https://i.imgur.com/SVDb5mV.png
+
+Running at okboomer.tasteless.eu:10101 (use pow!)
+
+hint: look at hint.bin (attached to the challenge description)

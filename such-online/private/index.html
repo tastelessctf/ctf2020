@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+
+<head>
+    <script type="text/javascript">
+        let me = {
+            walking: false,
+            x: 0,
+            y: 0,
+            tox: 0,
+            toy: 0,
+        }
+
+        const stop = () => {
+            me.walking = false
+        }
+
+        const move = (e) => {
+            me.walking = true
+            me.tox = Math.round(e.pageX);
+            me.toy = Math.round(e.pageY);
+
+            if (me.tox > 799) {
+                me.tox = 799
+            }
+            if (me.toy > 799) {
+                me.toy = 799
+            }
+            if (me.tox < 0) {
+                me.tox = 0
+            }
+            if (me.toy < 0) {
+                me.toy = 0
+            }
+        }
+
+        let n = ""
+
+        const play = () => {
+            // speed = 5
+            let ws = new WebSocket("ws://okboomer.tasteless.eu:12001/ws")
+
+            ws.onopen = () => {
+                otx = 0
+                oty = 0
+                setInterval(() => {
+                    if (!me.walking) {
+                        return
+                    }
+
+                    if (me.tox != otx || me.toy != oty) {
+                        ws.send(JSON.stringify({ "tox": me.tox, "toy": me.toy }))
+                        otx = me.tox
+                        oty = me.toy
+                    }
+
+                    document.getElementById("me").style.left = me.x + "px"
+                    document.getElementById("me").style.top = me.y + "px"
+                }, 50);
+            }
+
+            ws.onmessage = (e) => {
+                data = JSON.parse(e.data)
+                if (n === "") {
+                    n = data.Name
+                    document.getElementById("name").innerText = n
+                    return
+                }
+
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].Name == n) {
+                        me.x = data[i].X
+                        me.y = data[i].Y
+                    } else {
+                        if (document.getElementById("p-" + data[i].Name) == null) {
+                            d = document.createElement("div")
+                            d.innerHTML = '<svg width="20" height="20" style="position: absolute; left: 10px; top: 10px;"><circle cx="10" cy="10" r="5" stroke="blue" stroke-width="1" fill="red" /></svg><br />' + data[i].Name
+                            d.style = "position: absolute; padding: 0; margin: 0;"
+                            d.id = "p-" + data[i].Name
+                            document.getElementsByTagName("body")[0].append(d)
+                            setTimeout(() => {
+                                document.getElementsByTagName("body")[0].removeChild(d)
+                            }, 60000)
+                        }
+                        document.getElementById("p-" + data[i].Name).style.left = data[i].X + "px"
+                        document.getElementById("p-" + data[i].Name).style.top = data[i].Y + "px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <!-- <canvas id="game" style="width: 800px; height: 800px; margin: 10px; border:solid 1px #000; z-index: 999;"></canvas> -->
+
+    <img id="game" style="width: 800px; height: 800px; padding: 10px; margin: 0px; border:solid 1px #000; z-index: 999"
+        src="maze.png">
+    <div id="me" style="position: absolute; padding: 0; margin: 0;">
+        <svg width="20" height="20" style="position: absolute; left: 10px; top: 10px;">
+            <circle cx="10" cy="10" r="5" stroke="green" stroke-width="1" fill="yellow" />
+        </svg>
+        <br />
+        <span id="name"></span>
+    </div>
+    </img>
+
+    <script type="text/javascript">
+        document.getElementById('game').onmousemove = move
+        document.getElementById('game').onmouseout = stop
+        play()
+    </script>
+</body>
+
+</html>
